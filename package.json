@@ -1,0 +1,19 @@
+{
+    "name": "garmin-take-home",
+    "author": "Michael Esry",
+    "version": "1.0.0",
+    "description": "Web App Prototype",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build"
+    },
+    "dependencies": {
+        "vue": "^2.6.12",
+        "vue-router": "^3.5.1",
+        "axios": "^0.21.1"
+    },
+    "devDependencies": {
+        "@vue/cli-service": "^4.5.13",
+        "vue-template-compiler": "^2.6.12"
+    }
+}

@@ -1,15 +1,44 @@
+<script setup>
+import { computed, inject, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import Header from '../entities/Header.vue';
+import Content from '../entities/Content.vue';
+
+const axios = inject('axios');
+const capitalize = inject('capitalize');
+const route = useRoute();
+
+const pageName = ref("DETAILS");
+const api = ref('pokemon/');
+const details = ref(null);
+
+const showDetails = async (id) => {
+    details.value = (await axios.get(`${api.value}${id}`)).data;
+}
+
+const hasDetails = computed(() => details.value !== null);
+
+onMounted(() => {
+    showDetails(route.params.id);
+});
+</script>
+
 <template>
     <section id="details">
         <Header :page-name="pageName"></Header>
-        <Content v-if="details !== null" :header="capitalize(details.name)">
+        <Content v-if="hasDetails" :header="capitalize(details.name)">
             <div class="row mx-0">
                 <img :src="details.sprites.front_default">
             </div>
             <h5 class="mt-3">Pokémon Number</h5>
-            <div class="row mx-0"><strong>{{details.id}}</strong></div>
+            <div class="row mx-0"><strong>{{ details.id }}</strong></div>
             <h5 v-if="details.types.length > 1" class="mt-3">Types</h5>
             <h5 v-else class="mt-3">Type</h5>
-            <div v-for="type in details.types" :key="type.type.name" class="row mx-0"><strong>{{capitalize(type.type.name)}}</strong></div>
+            <div v-for="type in details.types" :key="type.type.name" class="row mx-0">
+                <strong>
+                    {{ capitalize(type.type.name) }}
+                </strong>
+            </div>
             <h5 class="mt-3">Stats</h5>
             <div v-for="stat in details.stats" :key="stat.stat.name" class="row mx-0">
                 <div class="col-12 col-md-6 px-0"><strong>{{stat.stat.name.toUpperCase()}}</strong></div>
@@ -22,47 +51,9 @@
     </section>
 </template>
 
-<script>
-    import Header from '../entities/Header.vue';
-    import Content from '../entities/Content.vue';
-
-    export default {
-        name: "Details",
-
-        components: {
-            Header,
-            Content
-        },
-
-        data: function() {
-            return {
-                pageName: "DETAILS",
-                api: "pokemon/",
-                details: null
-            }
-        },
-
-        methods: {
-            showDetails: function(id) {
-                this.$axios.get(this.api + id).then(function(response) {
-                    this.details = response.data;
-                }.bind(this));
-            },
-
-            capitalize: function(name) {
-                return name.charAt(0).toUpperCase() + name.slice(1);
-            }
-        },
-
-        created: function() {
-            this.showDetails(this.$route.params.id);
-        }
-    }
-</script>
-
-<style scoped>
-    img {
-        margin: 0 auto;
-        width: 200px;
-    }
+<style lang="scss" scoped>
+img {
+    margin: 0 auto;
+    width: 200px;
+}
 </style>

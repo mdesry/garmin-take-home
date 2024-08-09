@@ -1,7 +1,7 @@
 {
     "name": "garmin-take-home",
     "author": "Michael Esry",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Garmin Take Home - Pokéapi Integration",
     "license": "MIT",
     "type": "module",

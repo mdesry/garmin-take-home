@@ -51,68 +51,69 @@ onMounted(() => {
 </script>
 
 <template>
-    <section id="list">
-        <Header :page-name="pageName"></Header>
-        <Content :header="listHeader">
-            <div class="form-group">
-                <label class="form-label" for="name">Filter By Name</label>
-                <input type="text" id="name" name="api" class="form-control" v-model="name">
-            </div>
-            <table cellpadding="0" cellspacing="0">
-                <thead>
-                    <tr role="row">
-                        <th role="columnheader"><span aria-label="Number">#</span></th>
-                        <th role="columnheader">NAME</th>
-                        <th role="columnheader">VIEW DETAILS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr role="row" v-for="pokemon in filteredList" :key="pokemon.name">
-                        <td role="cell">{{ getPokemonId(pokemon.url) }}</td>
-                        <td role="cell">{{ capitalize(pokemon.name) }}</td>
-                        <td role="cell">
-                            <router-link :to="{ name: 'Details', params: { id: getPokemonId(pokemon.url) }}">Details</router-link>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </Content>
-    </section>
+  <section id="list">
+    <Header :page-name="pageName"></Header>
+    <Content :header="listHeader">
+      <div class="form-group">
+        <label class="form-label" for="name">Filter By Name</label>
+        <input type="text" id="name" name="api" class="form-control" v-model="name">
+      </div>
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr role="row">
+            <th role="columnheader"><span aria-label="Number">#</span></th>
+            <th role="columnheader">Name</th>
+            <th role="columnheader">View Details</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr role="row" v-for="pokemon in filteredList" :key="pokemon.name">
+              <td role="cell">{{ getPokemonId(pokemon.url) }}</td>
+              <td role="cell">{{ capitalize(pokemon.name) }}</td>
+              <td role="cell">
+                <router-link :to="{ name: 'Details', params: { id: getPokemonId(pokemon.url) }}">Details</router-link>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+    </Content>
+  </section>
 </template>
 
 <style lang="scss" scoped>
 table {
+  width: 100%;
+
+  tr {
+    background: #f0f0f0;
+    border-bottom: 2px solid white;
+    display: table;
+    table-layout: fixed;
     width: 100%;
+  }
 
-    tr {
-        background: #f0f0f0;
-        border-bottom: 2px solid white;
-        display: table;
-        table-layout: fixed;
-        width: 100%;
+  thead tr {
+    background: white;
+    border-bottom: 2px solid gray
+
+    th {
+      font-weight: normal;
+      text-transform: uppercase;
     }
+  }
 
-    thead tr {
-        background: white;
-        border-bottom: 2px solid gray
+  tbody {
+    display: block;
+    max-height: 65vh;
+    overflow: auto;
 
-        th {
-            font-weight: normal;
-        }
+    &::-webkit-scrollbar {
+      width: 0px;
     }
+  }
 
-    tbody {
-        display: block;
-        max-height: 65vh;
-        overflow: auto;
-
-        &::-webkit-scrollbar {
-            width: 0px;
-        }
-    }
-
-    th, td {
-        padding: .25rem .75rem;
-    }
+  th, td {
+      padding: .25rem .75rem;
+  }
 }
 </style>
